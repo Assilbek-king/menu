@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="/static/menu.css">
+</head>
+<body>
+	<div class="body">
+		<div class="head">
+			
+		</div>
+		<div class="menu">
+			<h1 class="title">Menu StarBurger</h1>
+			<ul class="ul_item" >
+				<li class="li_item li_active" cat-id="menu">Основное меню</li>
+				<li class="li_item" cat-id="bar">Бар</li>
+			</ul>
+			{% for cat in categories %}
+			<div class="content" data-id="{{ cat.type }}" category-id="id{{ cat.id }}">
+				<img src="/media/{{ cat.logo }}">
+				<p class="name">{{ cat.name }}</p>
+			</div>
+			{% endfor %}
+
+			<div class="produc">
+				{% for cat in categories %}
+				<p class="pr_title" category-id="id{{ cat.id }}">{{ cat.name }}</p>
+				{% endfor%}
+				{% for pr in products %}
+				<div class="pr_content" product-id="id{{ pr.category.id }}">
+					<img src="/media/{{ pr.logo }}">
+					<p class="pr_name">{{ pr.name }}</p>
+					<p class="pr_desc">{{ pr.description }}</p>
+					<p class="pr_price">{{ pr.price }} тг.</p>
+				</div>
+				{% endfor %}
+			</div>
+			<div class="footer">
+				<p class="fot_tit">@ithub.kz</p>
+
+			</div>
+		</div>
+	</div>
+
+</body>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+<script>
+$(document).ready(function() {
+	$('.pr_title').hide();
+    $('.pr_content').hide();
+  $('.li_item').on('click', function() {
+    var category = $(this).attr('cat-id'); // bosilgan elementning kategoriya sifati
+	$('.pr_title').hide();
+    $('.content').hide(); // hamma mahsulotni yashirish
+    $('.content[data-id="'+category+'"]').show(); // faqat bosilgan kategoriyaga mos keladigan mahsulotni ko'rsatish
+    $('.produc .pr_content').hide(); // hamma mahsulotni yashirish
+    $('.pr_title[category-id="'+category+'"]').first().trigger('click'); // faqat bir mahsulotni ko'rsatish
+  });
+  $('.content').on('click', function() {
+    var product_cat = $(this).attr('category-id'); // bosilgan mahsulotning kategoriya sifati
+    $('.content').hide();
+
+    $('.pr_title').hide(); 
+    $('.pr_title[category-id="'+product_cat+'"]').show();
+
+    $('.pr_content').hide(); // hamma mahsulotni yashirish
+    $('.pr_content[product-id="'+product_cat+'"]').show(); // faqat bosilgan kategoriyaga mos keladigan mahsulotni ko'rsatish
+  });
+});
+</script>
+
+
+
+</html>
